@@ -1,0 +1,34 @@
+{% extends 'layouts/index.html' %}
+
+{% block content %}
+    <style type="text/css">
+        .posts {
+            display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        width: 80%;
+        margin-left: 10%;
+    }
+    .post_block {
+        margin: 20px;
+        transition: all 0.3s;
+    }
+    .post_block:hover {
+        transform: scale(1.1);
+        cursor: pointer;
+    }
+</style>
+    <div class="posts">
+        {% for post in posts %}
+            <div class="post_block">
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ post.title }}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Rate: {{ post.rate }}</h6>
+                        <a href="#" class="card-link">More</a>
+                        </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

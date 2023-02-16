@@ -14,7 +14,16 @@ def posts_view(request):
         posts = Posts.objects.all()
 
         context = {
-            'posts': posts
+            'posts': [
+                {
+                    'id' : post.id,
+                    'title' : post.title,
+                    'rate' : post.rate,
+                    'image' : post.image,
+                    'hashtags' : post.hashtags.all
         }
+        for post in posts
+    ]
+}
 
         return render(request, 'posts/posts.html', context=context)

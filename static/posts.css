@@ -1,0 +1,19 @@
+.posts {
+        display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    width: 80%;
+    margin-left: 10%;
+}
+.post_block {
+    margin: 20px;
+    transition: all 0.3s;
+}
+.post_block:hover {
+    transform: scale(1.1);
+    cursor: pointer;
+}
+
+.post_image{
+    width: 100%;
+}

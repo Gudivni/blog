@@ -23,3 +23,7 @@ class Posts(models.Model):
         return self.title
 
 
+class Comment(models.Model):
+    text = models.CharField(max_length=355)
+    post = models.ForeignKey(Posts, on_delete=models.CASCADE, related_name='comments')
+    created_date = models.DateField(auto_now_add=True)

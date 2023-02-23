@@ -1,7 +1,7 @@
 {% extends 'layouts/index.html' %}
 
 {% block content %}
-    <style type="text/css">
+    <style type="text/css" xmlns="http://www.w3.org/1999/html">
         .post {
             width: 80%;
             margin-left: 10%;
@@ -38,6 +38,11 @@
             <h6>{{ post.modified_date }}</h6>
         </div>
         <h6 class="comments_title">Comments:</h6>
+        <form action="/posts/{{ post.id }}/" method="post">
+            {% csrf_token %}
+            {{ form }}
+            <input type="submit" value="Add Comment">
+        </form>
         <div class="comments">
             {% for comment in comments %}
                 <div class="comment_block">

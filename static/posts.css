@@ -17,3 +17,24 @@
 .post_image{
     width: 100%;
 }
+
+.pages{
+    display: flex;
+    justify-content: center;
+    margin: 30px;
+}
+
+.page_button{
+    width: 35px;
+    height: 35px;
+    background: #242b2e;
+    border: 1px solid black;
+    color: #fff;
+    transition: all 0.3s;
+    margin: 5px;
+    border-radius: 50%;
+}
+
+.page_button:hover{
+    transform: scale(1.1);
+}

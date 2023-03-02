@@ -6,25 +6,36 @@
 {% endblock %}
 
 {% block content %}
+    <form action="/posts/" method="get">
+        <input type="text" name="search">
+        <input type="submit" value="Search">
+    </form>
     <div class="posts">
         {% for post in posts %}
             <div class="post_block">
                 <div class="card" style="width: 18rem;">
                     <div class="card-body">
                         {% if post.image %}
-                        <img class="post_image" src="/media/{{ post.image }}" alt="">
-                    {% else %}
-                        <img class="post_image" src="{% static 'img.webp' %}" alt="">
-                    {% endif %}
+                            <img class="post_image" src="/media/{{ post.image }}" alt="">
+                        {% else %}
+                            <img class="post_image" src="{% static 'img.webp' %}" alt="">
+                        {% endif %}
                         <h5 class="card-title">{{ post.title }}</h5>
                         <h6 class="card-subtitle mb-2 text-muted">Rate: {{ post.rate }}</h6>
                         {% for hashtag in post.hashtags %}
-                        <p>{{ hashtag.title }}</p>
-                         {% endfor %}
+                            <p>{{ hashtag.title }}</p>
+                        {% endfor %}
                         <a href="/posts/{{ post.id }}" class="card-link">More</a>
-                        </div>
+                    </div>
                 </div>
             </div>
         {% endfor %}
+    </div>
+    <div class="pages">
+    {% for page in pages %}
+        <a href="/posts/?page={{ page }}">
+            <button class="page_button">{{ page }}</button>
+        </a>
+    {% endfor %}
     </div>
 {% endblock %}

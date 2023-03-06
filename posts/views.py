@@ -2,19 +2,22 @@ from django.shortcuts import render, redirect
 from posts.models import Posts, Comment
 from posts.forms import PostCreateForm, CommentCreateForm
 from posts.constants import PAGINATION_LIMIT
+from django.views.generic import ListView, CreateView, DetailView
 
 
 # Create your views here.
 
 
-def main_page_view(request):
-    if request.method == 'GET':
-        return render(request, 'layouts/index.html')
+class MainPageCBV(ListView):
+    model = Posts
 
 
-def posts_view(request):
-    if request.method == 'GET':
-        posts = Posts.objects.all().order_by('-created_date')
+class PostsCBV(ListView):
+    model = Posts
+    template_name = 'posts/posts.html'
+
+    def get(self, request, *args, **kwargs):
+        posts = self.get_queryset().order_by('-created_date')
         search = request.GET.get('search')
         page = int(request.GET.get('page', 1))
 
@@ -41,10 +44,10 @@ def posts_view(request):
                 for post in posts
             ],
             'user': request.user,
-            'pages': range(1, max_page+1)
+            'pages': range(1, max_page + 1)
         }
 
-        return render(request, 'posts/posts.html', context=context)
+        return render(request, self.template_name, context=context)
 
 
 def post_detail_view(request, id):
@@ -79,15 +82,20 @@ def post_detail_view(request, id):
         return render(request, 'posts/detail.html', context=context)
 
 
-def create_post_view(request):
-    if request.method == 'GET':
-        context = {
-            'form': PostCreateForm
+class CreatePostView(ListView, CreateView):
+    model = Posts
+    template_name = 'posts/create.html'
+    form_class = PostCreateForm
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        return {
+            'form': self.form_class if not kwargs.get('form') else kwargs['form']
         }
 
-        return render(request, 'posts/create.html', context=context)
+    def get(self, request, **kwargs):
+        return render(request, self.template_name, context=self.get_context_data())
 
-    if request.method == 'POST':
+    def post(self, request, **kwargs):
         data, files = request.POST, request.FILES
 
         form = PostCreateForm(data, files)
@@ -101,6 +109,5 @@ def create_post_view(request):
             )
             return redirect('/posts')
 
-        return render(request, 'posts/create.html', context={
-            'form': form
-        })
+        return render(request, self.template_name, context=self.get_context_data(form=form))
+

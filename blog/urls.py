@@ -16,7 +16,7 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path
-from posts.views import main_page_view, posts_view, post_detail_view, create_post_view
+from posts.views import MainPageCBV, PostsCBV, CreatePostView, CreateView, post_detail_view
 from django.conf.urls.static import static
 from blog import settings
 from users.views import register_view, login_view, logout_view
@@ -24,10 +24,10 @@ from users.views import register_view, login_view, logout_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', main_page_view),
-    path('posts/', posts_view),
+    path('', MainPageCBV.as_view(template_name='layouts/index.html')),
+    path('posts/', PostsCBV.as_view()),
     path('posts/<int:id>/', post_detail_view),
-    path('posts/create/', create_post_view),
+    path('posts/create/', CreatePostView.as_view()),
     path('users/register/', register_view),
     path('users/login/', login_view),
     path('users/logout/', logout_view)
